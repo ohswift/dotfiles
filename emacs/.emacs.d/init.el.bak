@@ -1,0 +1,97 @@
+;; 设置快捷键
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "<f2>") 'open-init-el)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
+;; 加载包配置
+(require 'package)
+; (add-to-list 'package-archives
+;              '("melpa" . "https://melpa.org/packages/"))
+(setq package-archives '(("gnu"   . "https://elpa.zilongshanren.com/gnu/")
+			 ("org"  . "https://elpa.zilongshanren.com/org/")
+                         ("melpa" . "https://elpa.zilongshanren.com/melpa/")))
+(package-initialize)
+
+(require 'cl-lib)
+(require 'company)
+(require 'recentf)
+
+;; 设置mode
+(global-company-mode 1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(recentf-mode 1)
+(setq recentf-max-menu-item 10)
+
+(delete-selection-mode 1)
+(global-hl-line-mode 1)
+
+(setq auto-mode-alist
+      (append
+       '(("\\.js\\'" . js2-mode))
+       auto-mode-alist))
+
+(require 'org)
+(setq org-src-fontify-natively t)
+
+(setq org-agenda-files '("/work/org/agenda"))
+(global-set-key (kbd "C-c a") 'org-agenda)
+
+;; 设置常用变量
+(setq inhibit-splash-screen 1)
+(add-to-list 'load-path "~/.emacs.d/myel")
+;; (add-to-list 'exec-path "/usr/local/bin/")
+;; (setenv "PATH"
+;;   (concat "/usr/local/bin:" (getenv "PATH")))
+(setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
+(setq make-backup-files nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+
+;; 设置常用样式
+;;(add-to-list 'default-frame-alist '(font . "Menlo-14"))
+(set-face-attribute 'default nil :height 140)
+(load-theme 'solarized-dark 1)
+
+
+;; hook
+(add-hook 'prog-mode-hook 'column-number-mode)
+
+(add-hook 'c-mode-common-hook
+    (lambda ()
+      (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+	(ggtags-mode 1))))
+(add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
+
+;; 自定义函数区
+(defun open-init-el()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+
+;; 系统自动产生区域
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
+ '(helm-mode t)
+ '(package-selected-packages
+   (quote
+    (js2-refactor nodejs-repl exec-path-from-shell js2-mode underwater-theme monokai-theme atom-one-dark-theme solarized-theme ox-html5slide htmlize company magit cl-lib weibo weechat rainbow-mode helm-zhihu-daily ggtags))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
