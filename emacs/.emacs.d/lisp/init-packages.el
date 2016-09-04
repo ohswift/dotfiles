@@ -32,6 +32,8 @@
 		      helm-ag
 		      atom-one-dark-theme
 		      flycheck
+		      markdown-mode
+		      gh-md
 		      )  "Default packages")
 
 (setq package-selected-packages my/packages)

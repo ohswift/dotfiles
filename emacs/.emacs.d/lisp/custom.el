@@ -8,6 +8,9 @@
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6c62b1cd715d26eb5aa53843ed9a54fc2b0d7c5e0f5118d4efafa13d7715c56e" default)))
+ '(package-selected-packages
+   (quote
+    (gh-md markdown-mode cl-lib helm magit company monokai-theme hungry-delete swiper counsel smartparens js2-mode nodejs-repl exec-path-from-shell popwin reveal-in-osx-finder web-mode js2-refactor expand-region iedit solarized-theme rainbow-mode htmlize helm-ag atom-one-dark-theme flycheck)))
  '(popwin:popup-window-position (quote bottom))
  '(popwin:popup-window-width 80))
 (custom-set-faces

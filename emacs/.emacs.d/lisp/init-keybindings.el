@@ -33,4 +33,15 @@
   (define-key company-active-map (kbd "C-n") #'company-select-next)
   (define-key company-active-map (kbd "C-p") #'company-select-previous))
 
+(defun insert-start-time ()
+  (interactive)
+  (insert "[start: " (current-time-string) "]\n"))
+(defun insert-end-time ()
+  (interactive)
+  (insert "[end:   " (current-time-string) "]\n"))
+
+(global-set-key (kbd "C-<f2>") 'insert-start-time)
+(global-set-key (kbd "C-<f3>") 'insert-end-time)
+
+
 (provide 'init-keybindings)
