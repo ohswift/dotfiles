@@ -1,0 +1,39 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ (#("/Users/vincent/dotfiles/emacs/.emacs.d/" 7 10 (face flx-highlight-face) 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face)) . "lisp/")
+ (#("/Users/vincent/dotfiles/emacs/" 7 10 (face flx-highlight-face) 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face)) . ".emacs.d/")
+ ("/Users/" . #("vincent/" 0 3 (face flx-highlight-face)))
+ (#("/Users/vincent/dotfiles/" 15 24 (face flx-highlight-face)) . #("emacs/" 0 2 (face flx-highlight-face)))
+)
+
+;; ----- ido-work-directory-list -----
+(
+ #("/Users/vincent/dotfiles/emacs/.emacs.d/lisp/" 7 10 (face flx-highlight-face) 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face))
+)
+
+;; ----- ido-work-file-list -----
+(
+ #("init-packages.el" 0 7 (face flx-highlight-face))
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ (#("/Users/vincent/dotfiles/emacs/.emacs.d/lisp/" 7 10 (face flx-highlight-face) 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face)) (22474 58402 0 0) "init-ui.el" "init-packages.el~" "init-packages.el" "init-org.el" "init-keybindings.el" "init-better-defaults.el" "custom.el" "../" "./")
+
+ ("/Users/" (22412 40650 0 0) "yuweishan627/" "vincent/" "Shared/" "localadmin/" "Guest/" "aa/" ".localized" "../" "./")
+
+ (#("/Users/vincent/dotfiles/emacs/.emacs.d/auto-save-list/" 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face) 30 39 (face flx-highlight-face) 49 54 (face flx-highlight-face)) (22474 60942 0 0) ".saves-43381-ohswift.local~" ".saves-34990-bogon~" ".saves-22851-ohswift.local~" ".saves-2259-bogon~" ".saves-17006-ohswift.local~" "../" "./")
+
+ (#("/Users/vincent/dotfiles/emacs/.emacs.d/" 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face) 30 39 (face flx-highlight-face)) (22475 62561 0 0) "url/" "recentf~" "recentf" "lisp/" "init.el.bak" "init.el" "helm-adaptive-history" "games/" "eshell" "elpa/" "auto-save-list/" ".DS_Store" "../" "./")
+
+ (#("/Users/vincent/dotfiles/emacs/" 15 24 (face flx-highlight-face) 24 26 (face flx-highlight-face)) (22467 45321 0 0) ".gitignore" ".emacs~" ".emacs.d/" "../" "./")
+
+ (#("/Users/vincent/dotfiles/" 15 24 (face flx-highlight-face)) (22467 45302 0 0) "eslint/" "emacs/" ".git/" ".DS_Store" "../" "./")
+
+ ("/Users/vincent/" (22476 765 0 0) "xcodebuild.rtf" "work/" "Public/" "Pictures/" "my-build/" "Music/" "Movies/" "Logs/" "Library/" "IemhF.png" "GTAGS" "GRTAGS" "GPATH" "Downloads/" "dotfiles/" "Documents/" "distr/" "Desktop/" "deploy/" "bin/" "archives/" "Applications/" "aaa.jpg" "a.out" "a.c~" "a.c" "132.jpg" ".zshrc" ".zsh_history" ".zsh-update" ".zlogin" ".zcompdump-C02R4AUKFVH5-5.0.8" ".z" ".Xauthority" ".wireshark-etc/" ".wireshark/" ".WhistleAppData/" ".viminfo" ".Trash/" ".subversion/" ".stCommitMsg" ".startingAppData/" ".ssh/" ".spacemacs" ".rvm/" ".rnd" ".profile" ".oracle_jre_usage/" ".oh-my-zsh/" ".npminstall_tarball/" ".npm/" ".mkshrc" ".matplotlib/" ".local/" ".jenkins/" ".java/" ".hgignore_global" ".gitignore_global" ".gitconfig" ".gemrc" ".gem/" ".eslintrc.js" ".erc/" ".emacs.d/" ".DS_Store" ".docker/" ".config/" ".cocoapods/" ".cnpmrc" ".cache/" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

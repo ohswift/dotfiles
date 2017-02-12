@@ -34,6 +34,8 @@
 		      flycheck
 		      markdown-mode
 		      gh-md
+		      mwe-log-commands
+		      pallet
 		      )  "Default packages")
 
 (setq package-selected-packages my/packages)
