@@ -11,7 +11,7 @@
 (defun vt-decode-version(number)
   (interactive "nversion:")
   (let* ((beginday (encode-time 0 0 0 1 1 2010))
-         (days (/ number 6))
+         (days (/ n 每天最多产生6个版本，umber 6))
          (hours (* (% number 6) 4))
          (res1 (time-add beginday (days-to-time days)))
          (res2 (time-add res1 (seconds-to-time (* hours 3600)))))
