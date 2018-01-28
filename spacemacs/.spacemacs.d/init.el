@@ -21,6 +21,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     markdown
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -102,9 +103,10 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(
                          spacemacs-dark
                          spacemacs-light
+                         monokai
                          solarized-light
                          solarized-dark
                          leuven
@@ -251,8 +253,159 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq configuration-layer--elpa-archives
         '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-;;          ("org-cn"   . "http://elpa.emacs-china.org/org/")
+          ("org-cn"   . "http://elpa.emacs-china.org/org/")
           ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  )
+
+
+(defun config-org ()
+;;  (require 'org-install)
+;;  (require 'org-latex)
+  (setq org-latex-classes
+        '(("cn-article"
+           "
+\\documentclass[12pt,a4paper]{article}
+\\usepackage[top=1in,bottom=1in,left=1cm,right=1cm]{geometry}
+\\usepackage{fontspec}
+\\setmainfont{PingFang SC}
+\\setmonofont[Scale=0.9]{Courier} % 等寬字型 [FIXME] Courier 中文會爛掉！
+\\usepackage{etoolbox}  % Quote 部份的字型設定
+%\\newfontfamily\\quotefont
+%\\AtBeginEnvironment{quote}{\\quotefont\\small}
+\\XeTeXlinebreaklocale \"zh\"
+\\XeTeXlinebreakskip = 0pt plus 1pt
+\\linespread{1.36}
+% [FIXME] ox-latex 的設計不良導致 hypersetup 必須在這裡插入
+\\usepackage{hyperref}
+\\hypersetup{
+  colorlinks=true, %把紅框框移掉改用字體顏色不同來顯示連結
+  linkcolor=[rgb]{0,0.37,0.53},
+  citecolor=[rgb]{0,0.47,0.68},
+  filecolor=[rgb]{0,0.37,0.53},
+  urlcolor=[rgb]{0,0.37,0.53},
+  pagebackref=true,
+  linktoc=all,}
+\\renewcommand{\\contentsname}{目录}
+\\usepackage{listings}
+\\usepackage{fancyhdr}
+\\usepackage{tikz}
+\\usepackage{wrapfig}
+\\usepackage{soul}
+\\usepackage{textcomp}
+\\usepackage{listings}
+\\usepackage{xcolor}
+\\definecolor{foreground}{RGB}{220,220,204}%浅灰
+\\definecolor{background}{RGB}{62,62,62}%浅黑
+\\definecolor{preprocess}{RGB}{250,187,249}%浅紫
+\\definecolor{var}{RGB}{239,224,174}%浅肉色
+\\definecolor{string}{RGB}{154,150,230}%浅紫色
+\\definecolor{type}{RGB}{225,225,116}%浅黄
+\\definecolor{function}{RGB}{140,206,211}%浅天蓝
+\\definecolor{keyword}{RGB}{239,224,174}%浅肉色
+\\definecolor{comment}{RGB}{180,98,4}%深褐色
+\\definecolor{doc}{RGB}{175,215,175}%浅铅绿
+\\definecolor{comdil}{RGB}{111,128,111}%深灰
+\\definecolor{constant}{RGB}{220,162,170}%粉红
+\\definecolor{buildin}{RGB}{127,159,127}%深铅绿
+"
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+          ))
+  ;; [FIXME]
+  ;; 原本是不要讓 org 插入 hypersetup（因為 org-mode 這部份設計成沒辦法自訂，或許可以去 report 一下？）
+  ;; 改成自行插入，但這樣 pdfcreator 沒辦法根據 Emacs 版本插入，pdfkeyword 也會無效...幹。
+  (setq org-latex-with-hyperref t)
+  ;; 把預設的 fontenc 拿掉
+  ;; 經過測試 XeLaTeX 輸出 PDF 時有 fontenc[T1]的話中文會無法顯示。
+  ;; hyperref 也拿掉，改從 classes 處就插入，原因見上面 org-latex-with-hyperref 的說明。
+  (setq org-latex-default-packages-alist
+        '(
+          ("AUTO" "inputenc" t)
+          ("" "fixltx2e" nil)
+          ("" "graphicx" t)
+          ("" "longtable" nil)
+          ("" "float" nil)
+          ("" "wrapfig" nil)
+          ("" "rotating" nil)
+          ("normalem" "ulem" t)
+          ("" "amsmath" t)
+          ("" "textcomp" t)
+          ("" "marvosym" t)
+          ("" "wasysym" t)
+          ("" "multicol" t)  ; 這是我另外加的，因為常需要多欄位文件版面。
+          ("" "amssymb" t)
+          "\\tolerance=1000"))
+
+;; 使用Listings宏包格式化源代码(只是把代码框用listing环境框起来，还需要额外的设置)
+(setq org-export-latex-listings t)
+;; Options for \lset command（reference to listing Manual)
+(setq org-export-latex-listings-options
+      '(
+        ("basicstyle" "\\color{foreground}\\small\\mono")           ; 源代码字体样式
+        ("keywordstyle" "\\color{function}\\bfseries\\small\\mono") ; 关键词字体样式
+        ("identifierstyle" "\\color{doc}\\small\\mono")
+        ("commentstyle" "\\color{comment}\\small\\itshape")         ; 批注样式
+        ("stringstyle" "\\color{string}\\small")                    ; 字符串样式
+        ("showstringspaces" "false")                                ; 字符串空格显示
+        ("numbers" "left")                                          ; 行号显示
+        ("numberstyle" "\\color{preprocess}")                       ; 行号样式
+        ("stepnumber" "1")                                          ; 行号递增
+        ("backgroundcolor" "\\color{background}")                   ; 代码框背景色
+        ("tabsize" "4")                                             ; TAB等效空格数
+        ("captionpos" "t")                                          ; 标题位置 top or buttom(t|b)
+        ("breaklines" "true")                                       ; 自动断行
+        ("breakatwhitespace" "true")                                ; 只在空格分行
+        ("showspaces" "false")                                      ; 显示空格
+        ("columns" "flexible")                                      ; 列样式
+        ("frame" "single")                                          ; 代码框：阴影盒
+        ("frameround" "tttt")                                       ; 代码框： 圆角
+        ("framesep" "0pt")
+        ("framerule" "8pt")
+        ("rulecolor" "\\color{background}")
+        ("fillcolor" "\\color{white}")
+        ("rulesepcolor" "\\color{comdil}")
+        ("framexleftmargin" "10mm")
+        ))
+
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((R . t)
+;;    (emacs-lisp . t)
+;;    (matlab . t)
+;;    (C . t)
+;;    (perl . t)
+;;    (sh . t)
+;;    (ditaa . t)
+;;    (python . t)
+;;    (haskell . t)
+;;    (dot . t)
+;;    (latex . t)
+;;    (js . t)
+;;    ))
+
+
+  ;; Use XeLaTeX to export PDF in Org-mode
+  (setq org-latex-pdf-process
+        '("xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"))
+
+  ;; LaTeX-mode
+  (setq tex-compile-commands '(("xelatex %r")))
+  (setq tex-command "xelatex")
+  (setq-default TeX-engine 'xelatex)
+
+  ;; AUCTeX
+  (setq TeX-command-list
+        '(("TeX" "%(PDF)%(tex) %`%S%(PDFout)%(mode)%' %t" TeX-run-TeX nil
+           (plain-tex-mode ams-tex-mode texinfo-mode)
+           :help "Run plain TeX")
+          ("LaTeX" "xelatex -interaction nonstopmode %t" TeX-run-TeX nil
+           (latex-mode doctex-mode)
+           :help "Run LaTeX")
+          ))
   )
 
 (defun dotspacemacs/user-config ()
@@ -262,6 +415,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (add-hook 'org-mode-hook 'config-org)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
