@@ -54,7 +54,7 @@ values."
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
-   dotspacemacs-delete-orphan-packages t))
+   dotspacemacs-delete-orphdefinecoloran-packages t))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -260,16 +260,21 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
 (defun config-org ()
 ;;  (require 'org-install)
-;;  (require 'org-latex)
+  ;;  (require 'org-latex)
+  (require 'ox-latex)
+  (setq org-src-fontify-natively t)
   (setq org-latex-classes
         '(("cn-article"
            "
 \\documentclass[12pt,a4paper]{article}
 \\usepackage[top=1in,bottom=1in,left=1cm,right=1cm]{geometry}
 \\usepackage{fontspec}
-\\setmainfont{PingFang SC}
-\\setmonofont[Scale=0.9]{Courier} % 等寬字型 [FIXME] Courier 中文會爛掉！
-\\usepackage{etoolbox}  % Quote 部份的字型設定
+\\usepackage{xeCJK}
+\\setmainfont{Menlo}
+\\setmonofont{Menlo}
+\\setCJKmainfont{PingFang SC}
+\\setCJKmonofont{PingFang SC}
+\\usepackage{etoolbox}  
 %\\newfontfamily\\quotefont
 %\\AtBeginEnvironment{quote}{\\quotefont\\small}
 \\XeTeXlinebreaklocale \"zh\"
@@ -286,27 +291,17 @@ before packages are loaded. If you are unsure, you should try in setting them in
   pagebackref=true,
   linktoc=all,}
 \\renewcommand{\\contentsname}{目录}
-\\usepackage{listings}
 \\usepackage{fancyhdr}
 \\usepackage{tikz}
 \\usepackage{wrapfig}
 \\usepackage{soul}
 \\usepackage{textcomp}
-\\usepackage{listings}
 \\usepackage{xcolor}
-\\definecolor{foreground}{RGB}{220,220,204}%浅灰
-\\definecolor{background}{RGB}{62,62,62}%浅黑
-\\definecolor{preprocess}{RGB}{250,187,249}%浅紫
-\\definecolor{var}{RGB}{239,224,174}%浅肉色
-\\definecolor{string}{RGB}{154,150,230}%浅紫色
-\\definecolor{type}{RGB}{225,225,116}%浅黄
-\\definecolor{function}{RGB}{140,206,211}%浅天蓝
-\\definecolor{keyword}{RGB}{239,224,174}%浅肉色
-\\definecolor{comment}{RGB}{180,98,4}%深褐色
-\\definecolor{doc}{RGB}{175,215,175}%浅铅绿
-\\definecolor{comdil}{RGB}{111,128,111}%深灰
-\\definecolor{constant}{RGB}{220,162,170}%粉红
-\\definecolor{buildin}{RGB}{127,159,127}%深铅绿
+\\usepackage{minted}
+\\usemintedstyle{monokai}
+\\setlength{\\parindent}{0em}%设置缩进0个字符
+\\definecolor{bg}{RGB}{44,44,39}
+\\newcommand{\\srcfont}{\\fontsize{10pt}{\\baselineskip}\\selectfont}
 "
            ("\\section{%s}" . "\\section*{%s}")
            ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -324,7 +319,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq org-latex-default-packages-alist
         '(
           ("AUTO" "inputenc" t)
-          ("" "fixltx2e" nil)
           ("" "graphicx" t)
           ("" "longtable" nil)
           ("" "float" nil)
@@ -339,58 +333,18 @@ before packages are loaded. If you are unsure, you should try in setting them in
           ("" "amssymb" t)
           "\\tolerance=1000"))
 
-;; 使用Listings宏包格式化源代码(只是把代码框用listing环境框起来，还需要额外的设置)
-(setq org-export-latex-listings t)
-;; Options for \lset command（reference to listing Manual)
-(setq org-export-latex-listings-options
-      '(
-        ("basicstyle" "\\color{foreground}\\small\\mono")           ; 源代码字体样式
-        ("keywordstyle" "\\color{function}\\bfseries\\small\\mono") ; 关键词字体样式
-        ("identifierstyle" "\\color{doc}\\small\\mono")
-        ("commentstyle" "\\color{comment}\\small\\itshape")         ; 批注样式
-        ("stringstyle" "\\color{string}\\small")                    ; 字符串样式
-        ("showstringspaces" "false")                                ; 字符串空格显示
-        ("numbers" "left")                                          ; 行号显示
-        ("numberstyle" "\\color{preprocess}")                       ; 行号样式
-        ("stepnumber" "1")                                          ; 行号递增
-        ("backgroundcolor" "\\color{background}")                   ; 代码框背景色
-        ("tabsize" "4")                                             ; TAB等效空格数
-        ("captionpos" "t")                                          ; 标题位置 top or buttom(t|b)
-        ("breaklines" "true")                                       ; 自动断行
-        ("breakatwhitespace" "true")                                ; 只在空格分行
-        ("showspaces" "false")                                      ; 显示空格
-        ("columns" "flexible")                                      ; 列样式
-        ("frame" "single")                                          ; 代码框：阴影盒
-        ("frameround" "tttt")                                       ; 代码框： 圆角
-        ("framesep" "0pt")
-        ("framerule" "8pt")
-        ("rulecolor" "\\color{background}")
-        ("fillcolor" "\\color{white}")
-        ("rulesepcolor" "\\color{comdil}")
-        ("framexleftmargin" "10mm")
-        ))
+  ;; 使用Listings宏包格式化源代码(只是把代码框用listing环境框起来，还需要额外的设置)
+  (setq org-export-latex-listings t)
 
-;; (org-babel-do-load-languages
-;;  'org-babel-load-languages
-;;  '((R . t)
-;;    (emacs-lisp . t)
-;;    (matlab . t)
-;;    (C . t)
-;;    (perl . t)
-;;    (sh . t)
-;;    (ditaa . t)
-;;    (python . t)
-;;    (haskell . t)
-;;    (dot . t)
-;;    (latex . t)
-;;    (js . t)
-;;    ))
+  (setq org-latex-listings 'minted)
 
+  (setq org-latex-minted-options
+        '(("frame" "lines") ("linenos=true") ("bgcolor=bg") ("breaklines") ("fontsize" "\\srcfont") ("baselinestretch=0.6")))
 
   ;; Use XeLaTeX to export PDF in Org-mode
   (setq org-latex-pdf-process
-        '("xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"))
+        '("xelatex -interaction nonstopmode -output-directory %o %f --shell-escape"
+          "xelatex -interaction nonstopmode -output-directory %o %f --shell-escape"))
 
   ;; LaTeX-mode
   (setq tex-compile-commands '(("xelatex %r")))
